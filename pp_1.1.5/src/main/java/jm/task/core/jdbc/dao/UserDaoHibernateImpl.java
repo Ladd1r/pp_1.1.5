@@ -8,12 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    private final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `mydbtest`.`users` " +
-            "(`id` INT NOT NULL AUTO_INCREMENT," +
-            "`name` VARCHAR(45)," +
-            "`lastName` VARCHAR(45)," +
-            "`age` INT," +
-            "PRIMARY KEY (`id`))";
+
     public UserDaoHibernateImpl() {
 
     }
@@ -24,7 +19,13 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = Util.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
-            session.createSQLQuery(CREATE_TABLE).executeUpdate();
+            session.createSQLQuery("CREATE TABLE IF NOT EXISTS `mydbtest`.`users` " +
+                            "(`id` INT NOT NULL AUTO_INCREMENT," +
+                            "`name` VARCHAR(45)," +
+                            "`lastName` VARCHAR(45)," +
+                            "`age` INT," +
+                            "PRIMARY KEY (`id`))")
+                    .executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
             if (session.getTransaction() != null) {
